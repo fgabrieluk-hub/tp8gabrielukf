@@ -1,0 +1,44 @@
+### 1. POST exitoso (201)
+POST http://localhost:8080/productos
+Content-Type: application/json
+
+{ "nombre": "Teclado mecánico", "precio": 45000.50, "stock": 25 }
+
+### 2. POST con precio negativo (400)
+POST http://localhost:8080/productos
+Content-Type: application/json
+
+{ "nombre": "Cable HDMI", "precio": -10, "stock": 5 }
+
+### 3a. GET por id existente (200)
+GET http://localhost:8080/productos/1
+
+### 3b. GET por id inexistente (404)
+GET http://localhost:8080/productos/999
+
+### 4a. PUT exitoso (200)
+PUT http://localhost:8080/productos/1
+Content-Type: application/json
+
+{ "nombre": "Teclado mecánico RGB", "precio": 50000.00, "stock": 30 }
+
+### 4b. PUT sobre id inexistente (404)
+PUT http://localhost:8080/productos/999
+Content-Type: application/json
+
+{ "nombre": "X", "precio": 1, "stock": 1 }
+
+### 5a. DELETE exitoso (204)
+DELETE http://localhost:8080/productos/2
+
+### 5b. DELETE repetido (404)
+DELETE http://localhost:8080/productos/2
+
+### 6a. Buscar con resultados (200)
+GET http://localhost:8080/productos/buscar?nombre=Monitor%2024%20pulgadas
+
+### 6b. Buscar sin resultados (404)
+GET http://localhost:8080/productos/buscar?nombre=Inexistente
+
+### Listar todos (200)
+GET http://localhost:8080/productos
