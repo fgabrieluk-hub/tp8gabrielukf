@@ -39,20 +39,29 @@ public class ProductoController {
         }
     }
 
-    @GetMapping
-    public ResponseEntity<List<ProductoResponseDTO>> listar() {
-        return ResponseEntity.ok(service.listar());
+        @GetMapping
+    public ResponseEntity<?> listar() {
+        try {
+            return ResponseEntity.ok(service.listar());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error al listar los productos: " + e.getMessage());
+        }
     }
 
-    // Se declara antes de /{id} por claridad; Spring igual prioriza la ruta literal.
-    @GetMapping("/buscar")
+        @GetMapping("/buscar")
     public ResponseEntity<?> buscar(@RequestParam String nombre) {
-        List<ProductoResponseDTO> resultado = service.buscarPorNombre(nombre);
-        if (resultado.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body("No se encontraron productos con nombre '" + nombre + "'");
+        try {
+            List<ProductoResponseDTO> resultado = service.buscarPorNombre(nombre);
+            if (resultado.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body("No se encontraron productos con nombre '" + nombre + "'");
+            }
+            return ResponseEntity.ok(resultado);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error al buscar productos: " + e.getMessage());
         }
-        return ResponseEntity.ok(resultado);
     }
 
     @GetMapping("/{id}")
